@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity{
     //Campos de login
     private  EditText user, pass;
     Button btnRegistrar, btnLogin;
+    boolean ignoreChange = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,36 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         user = (EditText) findViewById(R.id.tvUser);
         pass = (EditText) findViewById(R.id.tvPassword);
+        //Controlar que no se agreguen espacios en el nombre de usuario
+        user.setText("");
+        user.setSelection(user.getText().length());
+        user.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (!ignoreChange) {
+                    String string = s.toString();
+                    string = string.replace(".", "");
+                    string = string.replace(" ", "");
+                    string = string.trim();
+                    if (string.length() > 0)
+                        string = string.substring(0, string.length() - 1) + string.substring(string.length() - 1, string.length());
+                    ignoreChange = true;
+                    user.setText(string);
+                    user.setSelection(user.getText().length());
+                    ignoreChange = false;
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
 
     //metodo para ocultar y mostrar menu
@@ -61,9 +94,11 @@ public class MainActivity extends AppCompatActivity{
         AdminSqliteOpenHelper admin = new AdminSqliteOpenHelper(this, "Users", null, 1);
         SQLiteDatabase BD = admin.getWritableDatabase();
         String statusUser = BuscarYRetornarTipoDeUsuario(user.getText().toString(), pass.getText().toString());
+        Toast.makeText(this, statusUser.toString(), Toast.LENGTH_LONG).show();
         if(statusUser.equals("Administrador"))
         {
-            //deberia construir el usuario entero y tenerlo aca
+            Intent frmbuque = new Intent(this, frmBuque.class);
+            startActivity(frmbuque);
             Toast.makeText(this, "Entre como ADMINISTRADOR", Toast.LENGTH_LONG).show();
         }else if (statusUser.equals("Usuario"))
         {
@@ -80,9 +115,9 @@ public class MainActivity extends AppCompatActivity{
         String status = "";
 
         if (!u.isEmpty()) {
-            String sql = "SELECT * FROM usuarios WHERE userId ='" + u + "'" + "AND pass ='" + p + "'";
+            String sql = "SELECT * FROM usuarios WHERE userId ='" + u + "'" + " AND pass ='" + p + "'";
             //String sql= "SELECT * FROM usuarios WHERE userId ='" + u + "'";
-            //Toast.makeText(this, sql, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, sql, Toast.LENGTH_LONG).show();
             Cursor fila = BD.rawQuery(sql , null);
             if (fila.moveToFirst()) {//&& fila.getString(1).equals(p)
                 status = fila.getString(2);
@@ -99,6 +134,33 @@ public class MainActivity extends AppCompatActivity{
     {
         Intent sig = new Intent(this, frmRegistro.class);
         startActivity(sig);
+    }
+
+    public boolean validarCampos()
+    {
+        boolean validado = true;
+
+        String campoUser = user.getText().toString();
+        String campoPass = pass.getText().toString();
+
+        if(campoUser.isEmpty())
+        {
+            user.setError("Este campo no puede quedar vacio");
+            validado=false;
+        }
+        if (campoPass.isEmpty())
+        {
+            pass.setError("Este campo no puede quedar vacio");
+            validado=false;
+        }
+        return validado;
+    }
+
+
+
+    public void validarEspaciosTexto(String cadena)
+    {
+       user.setText(user.toString().replace(" ", ""));
     }
 
 }

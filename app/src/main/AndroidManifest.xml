@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MenuOverFlow">
         <activity
+            android:name=".frmBuque"
+            android:exported="false" />
+        <activity
             android:name=".frmRegistro"
             android:exported="false" />
         <activity
