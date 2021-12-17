@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity{
 
     public  void Login (View view)
     {
-        AdminSqliteOpenHelper admin = new AdminSqliteOpenHelper(this, "Users", null, 1);
+        AdminSqliteOpenHelper admin = new AdminSqliteOpenHelper(this);
         SQLiteDatabase BD = admin.getWritableDatabase();
         String statusUser = BuscarYRetornarTipoDeUsuario(user.getText().toString(), pass.getText().toString());
         Toast.makeText(this, statusUser.toString(), Toast.LENGTH_LONG).show();
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity{
         }
     }
     public String BuscarYRetornarTipoDeUsuario(String u, String p) {
-        AdminSqliteOpenHelper admin = new AdminSqliteOpenHelper(this, "Users", null, 1);
+        AdminSqliteOpenHelper admin = new AdminSqliteOpenHelper(this);
         SQLiteDatabase BD = admin.getWritableDatabase();
 
         String status = "";

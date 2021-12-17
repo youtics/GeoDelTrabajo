@@ -71,7 +71,7 @@ public class frmRegistro extends AppCompatActivity{
 
     //Metodo para dar de alta a los usuarios
     public void Registrar(View view) throws ParseException {
-        AdminSqliteOpenHelper admin = new AdminSqliteOpenHelper(this, "Users", null, 1);
+        AdminSqliteOpenHelper admin = new AdminSqliteOpenHelper(this);
         SQLiteDatabase BD = admin.getWritableDatabase();
 
         Usuario user = new Usuario();
@@ -113,7 +113,7 @@ public class frmRegistro extends AppCompatActivity{
         }
     }
     public boolean BuscarUsuario(String userName) {
-        AdminSqliteOpenHelper admin = new AdminSqliteOpenHelper(this, "Users", null, 1);
+        AdminSqliteOpenHelper admin = new AdminSqliteOpenHelper(this);
         SQLiteDatabase BD = admin.getWritableDatabase();
 
         userName = userId.getText().toString();
@@ -140,7 +140,7 @@ public class frmRegistro extends AppCompatActivity{
     //metodo para consultar un usuario
 
     public void Buscar(View view) {
-        AdminSqliteOpenHelper admin = new AdminSqliteOpenHelper(this, "Users", null, 1);
+        AdminSqliteOpenHelper admin = new AdminSqliteOpenHelper(this);
         SQLiteDatabase BD = admin.getWritableDatabase();
 
         String codigo = userId.getText().toString();
@@ -161,7 +161,7 @@ public class frmRegistro extends AppCompatActivity{
     }
 
     public void Eliminar(View view) {
-        AdminSqliteOpenHelper admin = new AdminSqliteOpenHelper(this, "Users", null, 1);
+        AdminSqliteOpenHelper admin = new AdminSqliteOpenHelper(this);
         SQLiteDatabase BD = admin.getWritableDatabase();
 
         String codigo = userId.getText().toString();
@@ -184,7 +184,7 @@ public class frmRegistro extends AppCompatActivity{
 
     public void Modificar(View view)
     {
-        AdminSqliteOpenHelper admin = new AdminSqliteOpenHelper(this, "Users", null, 1);
+        AdminSqliteOpenHelper admin = new AdminSqliteOpenHelper(this);
         SQLiteDatabase BD = admin.getWritableDatabase();
 
         String codigo = userId.getText().toString();

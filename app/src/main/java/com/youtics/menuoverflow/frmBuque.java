@@ -29,7 +29,7 @@ public class frmBuque extends AppCompatActivity {
 
     public void RegistrarBuque()
     {
-        AdminSqliteOpenHelper admin = new AdminSqliteOpenHelper(this, "Users", null, 1);
+        AdminSqliteOpenHelper admin = new AdminSqliteOpenHelper(this);
         SQLiteDatabase BD = admin.getWritableDatabase();
 
         Buque buque =  new Buque();
@@ -72,7 +72,7 @@ public class frmBuque extends AppCompatActivity {
     }
 
     public boolean BuscarBuque(String matricula) {
-        AdminSqliteOpenHelper admin = new AdminSqliteOpenHelper(this, "Users", null, 1);
+        AdminSqliteOpenHelper admin = new AdminSqliteOpenHelper(this);
         SQLiteDatabase BD = admin.getWritableDatabase();
 
         boolean encontrado=false;
